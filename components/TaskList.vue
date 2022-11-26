@@ -13,7 +13,7 @@
         </div>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
-        {{ task.text }}
+        {{ task.text ? task.text : "Дополнительная информация отсутствует" }}
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
