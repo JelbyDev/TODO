@@ -20,11 +20,11 @@
 
         <v-window v-model="state.activeTab">
           <v-window-item value="completed">
-            <task-list :tasks="notCompletedTasks" />
+            <task-list :tasks="notCompletedTasks" @delete="deleteTask" />
           </v-window-item>
 
           <v-window-item value="notCompleted">
-            <task-list :tasks="completedTasks" />
+            <task-list :tasks="completedTasks" @delete="deleteTask" />
           </v-window-item>
         </v-window>
 
@@ -104,9 +104,16 @@ const newTask: Task = reactive({
   text: "",
   isCompleted: false,
 });
+
 function createTask(): void {
   tasksList.value.push(newTask);
   state.isShowTaskCreateModal = false;
+}
+
+function deleteTask(taskId: number): void {
+  tasksList.value = [
+    ...tasksList.value.filter((task: Task) => task.id !== taskId),
+  ];
 }
 
 const state = reactive({

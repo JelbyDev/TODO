@@ -11,9 +11,18 @@
           />
           {{ task.title }}
         </div>
+        <div>
+          <v-btn
+            icon="mdi-delete"
+            variant="text"
+            color="error"
+            size="small"
+            @click.stop="runDeleteTaskEmit(task.id)"
+          />
+        </div>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
-        {{ task.text ? task.text : "Дополнительная информация отсутствует" }}
+        {{ task.text ? task.text : `Дополнительная информация отсутствует` }}
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -31,4 +40,12 @@ defineProps({
     default: () => [],
   },
 });
+
+const emit = defineEmits({
+  delete: (value: number) => typeof value === "number",
+});
+
+function runDeleteTaskEmit(taskId: number): void {
+  emit("delete", taskId);
+}
 </script>
