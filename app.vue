@@ -145,7 +145,8 @@ function showUpdateTaskModal(taskId: number): void {
 }
 
 function createTask(): void {
-  tasksList.value.push(modalTask);
+  modalTask.id = Date.now();
+  tasksList.value.push({ ...modalTask });
   hideTaskModal();
 }
 
