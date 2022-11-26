@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar>
+    <v-app-bar color="headerBg">
       <v-container>
         <v-app-bar-title>TODO List</v-app-bar-title>
       </v-container>
@@ -84,9 +84,7 @@
         </v-dialog>
       </v-container>
     </v-main>
-    <v-footer app>
-      <v-container>Подвал</v-container>
-    </v-footer>
+    <the-footer />
   </v-app>
 </template>
 

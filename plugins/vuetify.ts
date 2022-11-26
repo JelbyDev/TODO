@@ -11,6 +11,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         light: {
           dark: false,
           colors: {
+            headerBg: "#fff",
+            footerBg: "#545454",
             info: "#2196f3",
             error: "#b00020",
             success: "#4caf50",
