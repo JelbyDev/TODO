@@ -9,18 +9,10 @@
       <v-container>
         <v-row>
           <v-col cols="5">
-            <div class="text-h5 mb-2">Категории</div>
-            <form>
-              <v-text-field
-                label="Категория"
-                autocomplete="off"
-                variant="outlined"
-                density="compact"
-                append-inner-icon="mdi-plus-circle-outline"
-                hide-details
-                clearable
-              />
-            </form>
+            <div class="text-h5 mb-2">
+              Категории
+            </div>
+            <CategoryCreateForm @create="createCategory" />
             <div>
               <v-list>
                 <v-list-item
@@ -32,16 +24,19 @@
                   <v-list-item-content
                     class="d-flex justify-space-between align-center"
                   >
-                    <v-list-item-title>
-                      <span v-if="editingCategoryId === category.id">
-                        Редактируем
-                      </span>
+                    <v-list-item-title class="flex-grow-1">
+                      <CategoryEditForm
+                        v-if="editingCategoryId === category.id"
+                        :category-for-update="category"
+                        @update="updateCategory"
+                      />
                       <span v-else>
                         {{ category.title }}
                       </span>
                     </v-list-item-title>
                     <v-list-item-action>
                       <v-btn
+                        v-if="editingCategoryId !== category.id"
                         icon="mdi-pencil"
                         size="small"
                         variant="text"
@@ -51,7 +46,7 @@
                         icon="mdi-close"
                         size="small"
                         variant="text"
-                        @click.stop
+                        @click.stop="deleteCategory(category.id)"
                       />
                     </v-list-item-action>
                   </v-list-item-content>
@@ -60,26 +55,21 @@
             </div>
           </v-col>
           <v-col cols="7">
-            <div class="text-h5 mb-2">Задачи</div>
-            <form>
-              <v-text-field
-                label="Задача"
-                autocomplete="off"
-                variant="outlined"
-                density="compact"
-                append-inner-icon="mdi-plus-circle-outline"
-                hide-details
-                clearable
-              />
-            </form>
+            <div class="text-h5 mb-2">
+              Задачи
+            </div>
             <v-tabs
               v-model="activeTab"
               bg-color="transparent"
               color="basil"
               grow
             >
-              <v-tab value="notCompleted"> Текущие </v-tab>
-              <v-tab value="completed"> Выполненные </v-tab>
+              <v-tab value="notCompleted">
+                Текущие
+              </v-tab>
+              <v-tab value="completed">
+                Выполненные
+              </v-tab>
             </v-tabs>
 
             <v-window v-model="activeTab">
@@ -98,7 +88,7 @@
           </v-col>
         </v-row>
 
-        <hr />
+        <hr>
 
         <v-btn
           prepend-icon="mdi-plus"
@@ -115,7 +105,9 @@
         >
           <v-card>
             <v-card-title>
-              <div class="text-h5">Новая задача</div>
+              <div class="text-h5">
+                Новая задача
+              </div>
             </v-card-title>
             <v-card-text>
               <v-container>
@@ -161,27 +153,41 @@
   </v-app>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { Ref, ComputedRef } from "vue";
-import { Task, TaskCategory } from "@/types";
+import { Task, Category } from "@/types";
 
 // v-input-control-height Найти как поменять высоту
 const activeCategoryId: Ref<number | null> = ref(null);
 const editingCategoryId: Ref<number> = ref(0);
 const editingTaskId: Ref<number> = ref(0);
 
-const categoryList: Ref<TaskCategory[]> = ref([
+const categoryList: Ref<Category[]> = ref([
   { id: 1, title: "Срочное" },
   { id: 2, title: "Покупки" },
 ]);
 activeCategoryId.value = categoryList.value[0].id;
 
-const taskList: Ref<Task[]> = ref([
-  { id: 1, title: "Задача 1", category_id: 1, isCompleted: false },
-  { id: 2, title: "Задача 2", category_id: 1, isCompleted: false },
-  { id: 3, title: "Задача 3", category_id: 2, isCompleted: false },
-  { id: 4, title: "Задача 4", category_id: 1, isCompleted: true },
-]);
+function createCategory(category: Category): void {
+  categoryList.value.push({ ...category });
+}
+
+function updateCategory(updatedCategory: Category): void {
+  const updateCategoryIndex = categoryList.value.findIndex(
+    (category: Category) => category.id === updatedCategory.id
+  );
+  categoryList.value[updateCategoryIndex] = { ...updatedCategory };
+  editingCategoryId.value = 0;
+}
+
+function deleteCategory(categoryId: number): void {
+  categoryList.value = [
+    ...categoryList.value.filter((category: Category) => category.id !== categoryId),
+  ];
+  taskList.value = [
+    ...taskList.value.filter((task: Task) => task.category_id !== categoryId),
+  ];
+}
 
 function changeActiveCategory(categoryId: number): void {
   activeCategoryId.value = categoryId;
@@ -190,6 +196,13 @@ function changeActiveCategory(categoryId: number): void {
 function changeEditingCategoryId(categoryId: number): void {
   editingCategoryId.value = categoryId;
 }
+
+const taskList: Ref<Task[]> = ref([
+  { id: 1, title: "Задача 1", category_id: 1, isCompleted: false },
+  { id: 2, title: "Задача 2", category_id: 1, isCompleted: false },
+  { id: 3, title: "Задача 3", category_id: 2, isCompleted: false },
+  { id: 4, title: "Задача 4", category_id: 1, isCompleted: true },
+]);
 
 function changeEditingTaskId(taskId: number): void {
   editingTaskId.value = taskId;

@@ -6,7 +6,7 @@ export interface Task {
   text?: string;
 }
 
-export interface TaskCategory {
+export interface Category {
   id: number;
   title: string;
 }
