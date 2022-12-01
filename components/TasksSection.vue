@@ -1,6 +1,6 @@
 <template>
   <section>
-    <TaskFormCreate @create="createTask" />
+    <TaskFormCreate @create="taskStore.createTask" />
 
     <v-tabs
       v-model="activeTab"
@@ -17,9 +17,9 @@
       <v-window-item v-for="(tab, index) in tabs" :key="index" :value="tab.value">
         <TaskList
           :tasks="tab.tasks"
-          @complete="toggleCompletedTask"
-          @update="updateTask"
-          @delete="deleteTask"
+          @complete="taskStore.toggleCompletedTask"
+          @update="taskStore.updateTask"
+          @delete="taskStore.deleteTask"
         />
       </v-window-item>
     </v-window>
@@ -28,30 +28,26 @@
 
 <script setup lang="ts">
 import { Ref, ComputedRef } from "vue";
-import { Task, TaskTab } from "@/types";
+import { Task, TaskTab } from "~~/types";
+import { useTaskStore } from "~~/stores/task";
 
-const activeTab: Ref<string | null> = ref(null);
-const {
-  taskList,
-  createTask,
-  updateTask,
-  deleteTask,
-  toggleCompletedTask
-} = useTaskListOperations();
+const taskStore = useTaskStore();
 
 const completedTaskList: ComputedRef<Task[]> = computed(() => {
-  return taskList.value.filter(
+  return taskStore.filteredTaskList.filter(
     (task: Task) =>
       task.isCompleted
   );
 });
 
 const notCompletedTaskList: ComputedRef<Task[]> = computed(() => {
-  return taskList.value.filter(
+  return taskStore.filteredTaskList.filter(
     (task: Task) =>
       !task.isCompleted
   );
 });
+
+const activeTab: Ref<string | null> = ref(null);
 
 const tabs: ComputedRef<TaskTab[]> = computed(() => {
   return [
@@ -62,11 +58,4 @@ const tabs: ComputedRef<TaskTab[]> = computed(() => {
 
 </script>
 
-<style lang="scss">
-.v-container {
-  max-width: 960px;
-}
-.v-window {
-  padding: 1rem 0.4rem 0.4rem;
-}
-</style>
+<style lang="scss"></style>

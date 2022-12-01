@@ -4,16 +4,14 @@
       <v-text-field
         v-model.trim="task.title"
         :rules="validationRules.title"
-        class="mr-4"
+        :append-inner-icon="isFormValid ? 'mdi-content-save-outline' : ''"
         label="Новая задача"
         variant="outlined"
         autocomplete="off"
         density="comfortable"
         clearable
-        autofocus
-        required
+        @click:append-inner="onSubmit"
       />
-      <v-btn :disabled="!isFormValid" icon="mdi-plus" @click="onSubmit" />
     </div>
   </v-form>
 </template>

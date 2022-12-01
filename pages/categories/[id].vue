@@ -21,13 +21,9 @@
   </v-app>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
-<style lang="scss" scoped>
-.v-container {
-  max-width: 960px;
-}
-.v-window {
-  padding: 1rem 0.4rem 0.4rem;
-}
+<style scoped>
+
 </style>

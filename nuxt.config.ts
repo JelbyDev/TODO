@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
   typescript: {
     shim: false,
   },
@@ -15,4 +16,5 @@ export default defineNuxtConfig({
       "process.env.DEBUG": false,
     },
   },
+  modules: ["@pinia/nuxt"],
 });

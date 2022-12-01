@@ -1,23 +1,21 @@
 <template>
   <section>
-    <CategoryFormCreate @create="createCategory" />
+    <CategoryFormCreate @create="categoryStore.createCategory" />
 
     <CategoryList
-      :categories="categoryList"
-      @update="updateCategory"
-      @delete="deleteCategory"
+      :categories="categoryStore.categoryList"
+      :active-category-id="categoryStore.activeCategory"
+      @update="categoryStore.updateCategory"
+      @delete="categoryStore.deleteCategory"
+      @set-active-category="categoryStore.setActiveCategory"
     />
   </section>
 </template>
 
 <script setup lang="ts">
-const {
-  categoryList,
-  createCategory,
-  updateCategory,
-  deleteCategory
-} = useCategoryListOperations();
+import { useCategoryStore } from "~~/stores/category";
 
+const categoryStore = useCategoryStore();
 </script>
 
 <style scoped>

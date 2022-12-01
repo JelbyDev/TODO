@@ -4,15 +4,14 @@
       <v-text-field
         v-model.trim="category.title"
         :rules="validationRules.title"
+        :append-inner-icon="isFormValid ? 'mdi-content-save-outline' : ''"
         bg-color="#fff"
         variant="outlined"
         autocomplete="off"
         density="compact"
-        :append-inner-icon="isFormValid ? 'mdi-content-save-outline' : ''"
         hide-details
         clearable
         autofocus
-        required
         @click:append-inner="onSubmit"
       />
     </div>

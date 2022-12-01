@@ -18,7 +18,7 @@
           <TaskFormUpdate
             v-if="taskIdIsEditingMode === task.id"
             :task-for-update="task"
-            @update="runUpdateEmit"
+            @update="onUpdate"
             @keydown.esc="setTaskIdIsEditingMode(null)"
             @keydown.stop
           />
@@ -31,7 +31,7 @@
             icon="mdi-check-bold"
             variant="text"
             size="small"
-            @click.stop="runCompleteEmit(task.id)"
+            @click.stop="onComplete(task.id)"
           />
           <v-btn
             v-if="!task.isCompleted"
@@ -47,7 +47,7 @@
             variant="text"
             size="small"
             color="default"
-            @click.stop="runDeleteEmit(task.id)"
+            @click.stop="onDelete(task.id)"
           />
         </v-list-item-action>
       </div>
@@ -80,14 +80,14 @@ function setTaskIdIsEditingMode(taskId:number | null):void {
   taskIdIsEditingMode.value = taskId;
 }
 
-function runCompleteEmit(taskId: number): void {
+function onComplete(taskId: number): void {
   emit("complete", taskId);
 }
-function runUpdateEmit(task: Task): void {
+function onUpdate(task: Task): void {
   emit("update", task);
   setTaskIdIsEditingMode(null);
 }
-function runDeleteEmit(taskId: number): void {
+function onDelete(taskId: number): void {
   emit("delete", taskId);
 }
 

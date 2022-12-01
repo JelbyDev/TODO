@@ -1,12 +1,17 @@
+import { defineStore } from "pinia";
 import { Ref } from "vue";
 import { Category } from "~~/types";
+import { useTaskStore } from "~~/stores/task";
 import categories from "~~/moks/categories";
 
-export default function() {
-  const categoryList: Ref<Category[]> = ref([]);
+export const useCategoryStore = defineStore("category", () => {
+  const taskStore = useTaskStore();
 
-  function setCategories() {
-    categoryList.value = [...categories];
+  const categoryList: Ref<Category[]> = ref([...categories]);
+  const activeCategory: Ref<number | null> = ref(categoryList.value[0]?.id);
+
+  function setActiveCategory(categoryId: number) {
+    activeCategory.value = categoryId;
   }
 
   function createCategory(category: Category): void {
@@ -24,9 +29,11 @@ export default function() {
     categoryList.value = [
       ...categoryList.value.filter((category: Category) => category.id !== categoryId),
     ];
+    if (activeCategory.value === categoryId) { activeCategory.value = categoryList.value[0]?.id; }
   }
-  onMounted(() => {
-    setCategories();
+
+  watch(activeCategory, () => {
+    taskStore.setTaskFilters("category_id", activeCategory.value);
   })
 
   return {
@@ -34,5 +41,7 @@ export default function() {
     createCategory,
     updateCategory,
     deleteCategory,
+    activeCategory,
+    setActiveCategory,
   }
-}
+});

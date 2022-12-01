@@ -4,9 +4,9 @@
       v-for="category in categories"
       :key="category.id"
       :active="category.id === activeCategoryId"
-      :href="`/categories/${category.id}`"
+      @click="onSetActiveCategory(category.id)"
     >
-      <v-list-item-content
+      <div
         class="d-flex justify-space-between align-center"
       >
         <v-list-item-title class="flex-grow-1 pr-5">
@@ -24,16 +24,16 @@
             icon="mdi-pencil"
             size="small"
             variant="text"
-            @click.stop="setCategoryIdIsEditingMode(category.id)"
+            @click.stop.prevent="setCategoryIdIsEditingMode(category.id)"
           />
           <v-btn
             icon="mdi-close"
             size="small"
             variant="text"
-            @click.stop="onDelete(category.id)"
+            @click.stop.prevent="onDelete(category.id)"
           />
         </v-list-item-action>
-      </v-list-item-content>
+      </div>
     </v-list-item>
   </v-list>
   <section v-else>
@@ -56,6 +56,7 @@ withDefaults(defineProps<{
 const emit = defineEmits<{
   (e: "delete", value: number):void,
   (e: "update", value: Category):void,
+  (e: "set-active-category", value: number):void
 }>();
 
 const categoryIdIsEditingMode: Ref<number | null> = ref(null);
@@ -70,5 +71,8 @@ function onUpdate(category: Category): void {
 }
 function onDelete(categoryId: number): void {
   emit("delete", categoryId);
+}
+function onSetActiveCategory(categoryId:number):void {
+  emit("set-active-category", categoryId)
 }
 </script>
