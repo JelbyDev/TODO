@@ -1,8 +1,6 @@
 <template>
   <section>
-    <div class="mb-2">
-      <TaskFormCreate @create="createTask" />
-    </div>
+    <TaskFormCreate @create="createTask" />
 
     <v-tabs
       v-model="activeTab"
