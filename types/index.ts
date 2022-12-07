@@ -3,7 +3,6 @@ export interface Task {
   category_id: number;
   title: string;
   isCompleted: boolean;
-  text?: string;
 }
 
 export interface Category {
@@ -12,7 +11,11 @@ export interface Category {
 }
 
 export interface TaskTab {
-  title: string,
-  value: string,
-  tasks: Task[]
+  title: string;
+  value: string;
+  tasks: Task[];
+}
+
+export interface TaskFilters {
+  category_id: number | null;
 }

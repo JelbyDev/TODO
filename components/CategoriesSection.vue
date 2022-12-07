@@ -2,13 +2,7 @@
   <section>
     <CategoryFormCreate @create="categoryStore.createCategory" />
 
-    <CategoryList
-      :categories="categoryStore.categoryList"
-      :active-category-id="categoryStore.activeCategory"
-      @update="categoryStore.updateCategory"
-      @delete="categoryStore.deleteCategory"
-      @set-active-category="categoryStore.setActiveCategory"
-    />
+    <CategoryList :categories="categoryStore.categoryList" />
   </section>
 </template>
 
@@ -18,6 +12,4 @@ import { useCategoryStore } from "~~/stores/category";
 const categoryStore = useCategoryStore();
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

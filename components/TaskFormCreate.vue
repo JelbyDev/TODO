@@ -18,28 +18,37 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { Task } from "~~/types";
-
-const { isFormValid, validationRules } = useValidationTaskForm();
-const refForm: Ref<HTMLFormElement | null> = ref(null)
-
-const task: Task = reactive({
-  id: Date.now(),
-  category_id: 0,
-  title: "",
-  isCompleted: false,
-});
+import { useCategoryStore } from "~~/stores/category";
 
 const emit = defineEmits<{
-  (e: "create", value: Task): void
-}>()
+  (e: "create", value: Task): void;
+}>();
+
+const categoryStore = useCategoryStore();
+
+const task: Task = reactive({ ...defaultTask() });
+const refForm: Ref<HTMLFormElement | null> = ref(null);
+const { isFormValid, validationRules } = useValidationTaskForm();
+
+function defaultTask() {
+  return {
+    id: Date.now(),
+    category_id: categoryStore.activeCategory?.id ?? 0,
+    title: "",
+    isCompleted: false,
+  };
+}
 
 function onSubmit(): void {
   if (isFormValid.value) {
     emit("create", task);
-    task.title = "";
+    Object.assign(task, { ...defaultTask() });
+
     nextTick(() => {
-      if (refForm.value) { refForm.value.resetValidation() }
-    })
+      if (refForm.value) {
+        refForm.value.resetValidation();
+      }
+    });
   }
 }
 </script>

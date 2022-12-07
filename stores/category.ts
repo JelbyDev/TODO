@@ -8,11 +8,7 @@ export const useCategoryStore = defineStore("category", () => {
   const taskStore = useTaskStore();
 
   const categoryList: Ref<Category[]> = ref([...categories]);
-  const activeCategory: Ref<number | null> = ref(categoryList.value[0]?.id);
-
-  function setActiveCategory(categoryId: number) {
-    activeCategory.value = categoryId;
-  }
+  const activeCategory: Ref<Category | null> = ref(categoryList.value[0]);
 
   function createCategory(category: Category): void {
     categoryList.value.push({ ...category });
@@ -27,14 +23,15 @@ export const useCategoryStore = defineStore("category", () => {
 
   function deleteCategory(categoryId: number): void {
     categoryList.value = [
-      ...categoryList.value.filter((category: Category) => category.id !== categoryId),
+      ...categoryList.value.filter(
+        (category: Category) => category.id !== categoryId
+      ),
     ];
-    if (activeCategory.value === categoryId) { activeCategory.value = categoryList.value[0]?.id; }
+    if (activeCategory.value?.id === categoryId) {
+      activeCategory.value = categoryList.value[0] ?? null;
+    }
+    taskStore.deleteTaskByCategoryId(categoryId);
   }
-
-  watch(activeCategory, () => {
-    taskStore.setTaskFilters("category_id", activeCategory.value);
-  })
 
   return {
     categoryList,
@@ -42,6 +39,5 @@ export const useCategoryStore = defineStore("category", () => {
     updateCategory,
     deleteCategory,
     activeCategory,
-    setActiveCategory,
-  }
+  };
 });
