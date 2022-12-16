@@ -12,6 +12,7 @@ export const useCategoryStore = defineStore("category", () => {
 
   function createCategory(category: Category): void {
     categoryList.value.push({ ...category });
+    activeCategory.value = categoryList.value.at(-1) ?? null;
   }
 
   function updateCategory(updatedCategory: Category): void {

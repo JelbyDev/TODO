@@ -7,7 +7,7 @@
     </v-app-bar>
     <v-main>
       <v-container>
-        <v-row>
+        <v-row class="pt-3">
           <v-col cols="5">
             <CategoriesSection />
           </v-col>
@@ -20,8 +20,6 @@
     <the-footer />
   </v-app>
 </template>
-
-<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .v-container {

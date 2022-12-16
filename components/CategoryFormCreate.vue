@@ -19,25 +19,31 @@
 import { Ref } from "vue";
 import { Category } from "~~/types";
 
+const emits = defineEmits<{
+  (e: "create", value: Category): void;
+}>();
+
 const { isFormValid, validationRules } = useValidationCategoryForm();
-const refForm: Ref<HTMLFormElement | null> = ref(null)
+const refForm: Ref<HTMLFormElement | null> = ref(null);
+const category: Ref<Category> = ref({ ...getDefaultCategory() });
 
-const category: Category = reactive({
-  id: Date.now(),
-  title: "",
-});
-
-const emit = defineEmits<{
-  (e: "create", value: Category): void
-}>()
+function getDefaultCategory() {
+  return {
+    id: Date.now(),
+    title: "",
+  };
+}
 
 function onSubmit(): void {
   if (isFormValid.value) {
-    emit("create", category);
-    category.title = "";
+    emits("create", category.value);
+    category.value = { ...getDefaultCategory() };
+
     nextTick(() => {
-      if (refForm.value) { refForm.value.resetValidation() }
-    })
+      if (refForm.value) {
+        refForm.value.resetValidation();
+      }
+    });
   }
 }
 </script>

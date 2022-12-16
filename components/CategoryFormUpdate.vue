@@ -22,24 +22,27 @@ import { Ref } from "vue";
 import { Category } from "~~/types";
 
 const props = defineProps<{
-  categoryForUpdate: Category,
+  categoryForUpdate: Category;
 }>();
 
-const emit = defineEmits<{
-  (e: "update", value: Category): void
-}>()
+const emits = defineEmits<{
+  (e: "update", value: Category): void;
+}>();
 
 const { isFormValid, validationRules } = useValidationCategoryForm();
-const refForm: Ref<HTMLFormElement | null> = ref(null)
-const category: Category = reactive({ ...props.categoryForUpdate });
+const refForm: Ref<HTMLFormElement | null> = ref(null);
+const category: Ref<Category> = ref({ ...props.categoryForUpdate });
 
 function onSubmit(): void {
   if (isFormValid.value) {
-    emit("update", category);
-    category.title = "";
+    emits("update", category.value);
+    category.value.title = "";
+
     nextTick(() => {
-      if (refForm.value) { refForm.value.resetValidation() }
-    })
+      if (refForm.value) {
+        refForm.value.resetValidation();
+      }
+    });
   }
 }
 </script>

@@ -18,22 +18,19 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { Task } from "~~/types";
-import { useCategoryStore } from "~~/stores/category";
 
-const emit = defineEmits<{
+const emits = defineEmits<{
   (e: "create", value: Task): void;
 }>();
 
-const categoryStore = useCategoryStore();
-
-const task: Task = reactive({ ...defaultTask() });
+const task: Ref<Task> = ref({ ...getDefaultTask() });
 const refForm: Ref<HTMLFormElement | null> = ref(null);
 const { isFormValid, validationRules } = useValidationTaskForm();
 
-function defaultTask() {
+function getDefaultTask() {
   return {
     id: Date.now(),
-    category_id: categoryStore.activeCategory?.id ?? 0,
+    category_id: 0,
     title: "",
     isCompleted: false,
   };
@@ -41,8 +38,8 @@ function defaultTask() {
 
 function onSubmit(): void {
   if (isFormValid.value) {
-    emit("create", task);
-    Object.assign(task, { ...defaultTask() });
+    emits("create", task.value);
+    task.value = { ...getDefaultTask() };
 
     nextTick(() => {
       if (refForm.value) {

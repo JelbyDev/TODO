@@ -11,6 +11,7 @@
 </template>
 
 <script setup lang="ts">
+import { Ref } from "vue";
 import { Task } from "~~/types";
 
 withDefaults(

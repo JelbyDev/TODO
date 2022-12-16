@@ -1,6 +1,6 @@
 <template>
   <section>
-    <TaskFormCreate @create="taskStore.createTask" />
+    <TaskFormCreate @create="createTask" />
 
     <v-tabs v-model="activeTab" bg-color="transparent" color="basil" grow>
       <v-tab v-for="(tab, index) in tabs" :key="index" :value="tab.value">
@@ -22,13 +22,14 @@
 
 <script setup lang="ts">
 import { Ref, ComputedRef } from "vue";
-import { TaskTab } from "~~/types";
+import { Task, TaskTab } from "~~/types";
 import { useTaskStore } from "~~/stores/task";
+import { useCategoryStore } from "~~/stores/category";
 
 const taskStore = useTaskStore();
+const categoryStore = useCategoryStore();
 
 const activeTab: Ref<string | null> = ref(null);
-
 const tabs: ComputedRef<TaskTab[]> = computed(() => {
   return [
     {
@@ -43,4 +44,12 @@ const tabs: ComputedRef<TaskTab[]> = computed(() => {
     },
   ];
 });
+
+function createTask(task: Task): void {
+  if (!task.category_id && categoryStore.activeCategory) {
+    task.category_id = categoryStore.activeCategory.id;
+  }
+  taskStore.createTask(task);
+  activeTab.value = "notCompleted";
+}
 </script>

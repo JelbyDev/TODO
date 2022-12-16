@@ -22,24 +22,27 @@ import { Ref } from "vue";
 import { Task } from "~~/types";
 
 const props = defineProps<{
-  taskForUpdate: Task,
+  taskForUpdate: Task;
 }>();
 
-const emit = defineEmits<{
-  (e: "update", value: Task): void
-}>()
+const emits = defineEmits<{
+  (e: "update", value: Task): void;
+}>();
 
 const { isFormValid, validationRules } = useValidationTaskForm();
-const refForm: Ref<HTMLFormElement | null> = ref(null)
-const task: Task = reactive({ ...props.taskForUpdate });
+const refForm: Ref<HTMLFormElement | null> = ref(null);
+const task: Ref<Task> = ref({ ...props.taskForUpdate });
 
 function onSubmit(): void {
   if (isFormValid.value) {
-    emit("update", task);
-    task.title = "";
+    emits("update", task.value);
+    task.value.title = "";
+
     nextTick(() => {
-      if (refForm.value) { refForm.value.resetValidation() }
-    })
+      if (refForm.value) {
+        refForm.value.resetValidation();
+      }
+    });
   }
 }
 </script>
