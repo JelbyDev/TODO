@@ -34,6 +34,19 @@ export const useCategoryStore = defineStore("category", () => {
     taskStore.deleteTaskByCategoryId(categoryId);
   }
 
+  watch(
+    categoryList,
+    () => setItemInStorage("categoryList", JSON.stringify(categoryList.value)),
+    { deep: true }
+  );
+
+  onMounted(() => {
+    const storageCategoryList = getItemFromStorage("categoryList");
+    if (storageCategoryList) {
+      categoryList.value = [...JSON.parse(storageCategoryList)];
+    }
+  });
+
   return {
     categoryList,
     createCategory,

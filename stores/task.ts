@@ -66,6 +66,19 @@ export const useTaskStore = defineStore("task", () => {
     return filteredTaskList.value.filter((task: Task) => !task.isCompleted);
   });
 
+  watch(
+    taskList,
+    () => setItemInStorage("taskList", JSON.stringify(taskList.value)),
+    { deep: true }
+  );
+
+  onMounted(() => {
+    const storageTaskList = getItemFromStorage("taskList");
+    if (storageTaskList) {
+      taskList.value = [...JSON.parse(storageTaskList)];
+    }
+  });
+
   return {
     createTask,
     updateTask,
