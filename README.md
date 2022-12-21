@@ -78,5 +78,5 @@ npm run dev
 ### Создание продакшен версии
 
 ```
-npm run build
+npm run generate
 ```
