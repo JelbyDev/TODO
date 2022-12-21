@@ -6,12 +6,14 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint --ext .ts,.js,.vue ."
+    "lint": "eslint --ext .ts,.js,.vue .",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@mdi/font": "^7.0.96",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "eslint": "^8.28.0",
+    "gh-pages": "^4.0.0",
     "nuxt": "3.0.0",
     "sass": "^1.56.1",
     "sass-loader": "^12.0.0",
