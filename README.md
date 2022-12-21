@@ -1,4 +1,4 @@
-# TODO List - [деплой проекта](https://jelbydev.github.io/TODO/#/)
+# TODO List - [деплой проекта](https://jelbydev.github.io/TODO/)
 
 ## Требования к проекту
 
