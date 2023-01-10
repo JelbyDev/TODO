@@ -3,7 +3,7 @@
     <CategoryListItem
       v-for="category in categories"
       :key="category.id"
-      v-model:category-id-is-editing-mod="categoryIdIsEditingMode"
+      v-model:category-id-is-editing-mode="categoryIdIsEditingMode"
       :category="category"
     />
   </v-list>

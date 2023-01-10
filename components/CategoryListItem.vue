@@ -9,7 +9,8 @@
           v-if="categoryIdIsEditingMode === category.id"
           :category-for-update="category"
           @update="updateCategory"
-          @keydown.esc="updateCategoryIdIsEditingMod(null)"
+          @blur="updateCategoryIdIsEditingMode(null)"
+          @keydown.esc="updateCategoryIdIsEditingMode(null)"
           @keydown.stop
         />
         <span v-else>{{ category.title }}</span>
@@ -19,7 +20,7 @@
           icon="mdi-pencil"
           size="small"
           variant="text"
-          @click.stop.prevent="updateCategoryIdIsEditingMod(category.id)"
+          @click.stop.prevent="updateCategoryIdIsEditingMode(category.id)"
         />
         <v-btn
           icon="mdi-close"
@@ -49,15 +50,15 @@ withDefaults(
 );
 
 const emits = defineEmits<{
-  (e: "update:categoryIdIsEditingMod", categoryId: number | null): void;
+  (e: "update:categoryIdIsEditingMode", categoryId: number | null): void;
 }>();
 
-function updateCategoryIdIsEditingMod(categoryId: number | null): void {
-  emits("update:categoryIdIsEditingMod", categoryId);
+function updateCategoryIdIsEditingMode(categoryId: number | null): void {
+  emits("update:categoryIdIsEditingMode", categoryId);
 }
 
 function updateCategory(category: Category) {
   categoryStore.updateCategory(category);
-  updateCategoryIdIsEditingMod(null);
+  updateCategoryIdIsEditingMode(null);
 }
 </script>

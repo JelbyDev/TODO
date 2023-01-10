@@ -12,6 +12,7 @@
         hide-details
         clearable
         autofocus
+        @blur="onBlur"
         @click:append-inner="onSubmit"
       />
     </div>
@@ -27,6 +28,7 @@ const props = defineProps<{
 
 const emits = defineEmits<{
   (e: "update", value: Category): void;
+  (e: "blur"): void;
 }>();
 
 const { isFormValid, validationRules } = useValidationCategoryForm();
@@ -44,5 +46,9 @@ function onSubmit(): void {
       }
     });
   }
+}
+
+function onBlur() {
+  emits("blur");
 }
 </script>

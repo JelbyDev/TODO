@@ -12,6 +12,7 @@
           v-if="taskIdIsEditingMode === task.id"
           :task-for-update="task"
           @update="updateTask"
+          @blur="updateTaskIdIsEditingMode(null)"
           @keydown.esc="updateTaskIdIsEditingMode(null)"
           @keydown.stop
         />
