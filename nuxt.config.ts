@@ -3,6 +3,16 @@ export default defineNuxtConfig({
   app: {
     baseURL: "/TODO/",
     buildAssetsDir: "assets/",
+    head: {
+      title: "TODO List",
+      meta: [
+        {
+          name: "description",
+          content:
+            "Удобный TODO List с возможность разбивки задач по категориям.",
+        },
+      ],
+    },
   },
   ssr: false,
   typescript: {
